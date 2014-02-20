@@ -1,5 +1,7 @@
-node[:jenkins][:dependencies][:packages].each do |package_name|
-  package package_name
+node[:jenkins][:dependencies][:packages].each do |package_name, version|
+  package package_name do
+     version {version}
+	 action: install
 end
 
 node[:jenkins][:dependencies][:gems].each do |gem_name, version|
