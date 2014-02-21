@@ -6,12 +6,11 @@ node[:deploy].each do |app_name, deploy|
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
     curl -s https://getcomposer.org/installer | php -- --install-dir="#{deploy[:deploy_to]}/current"
-    file "#{deploy[:deploy_to]}/current/composer.json" do
-  owner 'root'
-  group 'root'
+   cookbook_file "#{deploy[:deploy_to]}/current/composer.json" do
+  source "composer.json"
   mode 0755
-  content ::File.open("composer.json").read
-  action :create
+  owner "root"
+  group "root"
 end
    end
     php composer.phar install
