@@ -6,5 +6,5 @@ node[:jenkins][:dependencies][:packages].each do |package_name, version|
 end
 
 node[:jenkins][:dependencies][:gems].each do |gem_name|
-  execute "/usr/local/bin/gem install --no-ri --no-rdoc #{gem_name} 
+  execute "/usr/local/bin/gem install --no-ri --no-rdoc #{gem_name}" 
 end
