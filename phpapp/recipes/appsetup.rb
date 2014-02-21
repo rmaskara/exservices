@@ -5,7 +5,15 @@ node[:deploy].each do |app_name, deploy|
     user "root"
     cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
-    curl -s https://getcomposer.org/installer | php
+    curl -s https://getcomposer.org/installer | php -- --install-dir="#{deploy[:deploy_to]}/current"
+    file "#{deploy[:deploy_to]}/current/composer.json" do
+  owner 'root'
+  group 'root'
+  mode 0755
+  content ::File.open("composer.json").read
+  action :create
+end
+   end
     php composer.phar install
     EOH
   end
