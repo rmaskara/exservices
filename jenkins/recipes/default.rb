@@ -1,6 +1,7 @@
 include_recipe 'jenkins::dependencies'
 include_recipe 'nginx::service'
 include_recipe 'jenkins::service'
+include_recipe 'yum::default'
 
 directory '/var/lib/jenkins'
 
@@ -13,7 +14,23 @@ directory '/var/lib/jenkins'
   end
 end
 
-yum_package 'jenkins'
+  
+
+  yum_repository 'jenkins-ci' do
+    baseurl 'http://pkg.jenkins-ci.org/redhat'
+    gpgkey  'http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key'
+  end
+
+  package 'jenkins' do
+    version node['jenkins']['master']['version']
+  end
+
+  template '/etc/sysconfig/jenkins' do
+    source   'jenkins-config-rhel.erb'
+    mode     '0644'
+    notifies :restart, 'service[jenkins]', :immediately
+  end
+
 
 directory '/var/lib/jenkins/.ssh' do
   owner 'jenkins'
