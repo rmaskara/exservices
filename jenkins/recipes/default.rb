@@ -13,7 +13,7 @@ directory '/var/lib/jenkins'
   end
 end
 
-package 'jenkins'
+yum_package 'jenkins'
 
 directory '/var/lib/jenkins/.ssh' do
   owner 'jenkins'
