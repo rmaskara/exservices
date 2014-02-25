@@ -21,7 +21,5 @@ depends 'yum'
 depends 'apache2'
 depends 'nginx'
 depends 'iptables'
-=======
 
-depends 'yum',   '~> 3.0'
 
