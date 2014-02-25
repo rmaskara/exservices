@@ -11,11 +11,8 @@ recipe 'iptables', 'Configures iptables to allow incoming connections to the jen
 recipe 'node', 'Installs a Jenkins node'
 recipe 'proxy', 'Installs a web server proxy for communication with the jenkins instance'
 recipe 'server', 'Installs Jenkins server'
-
-
 depends 'java'
 depends 'yum'
-
 depends 'apache2'
 depends 'nginx'
 depends 'iptables'
