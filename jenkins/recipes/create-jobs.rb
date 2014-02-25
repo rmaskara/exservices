@@ -10,7 +10,7 @@ node[:deploy].each do |app, deploy|
   end
 
   execute "create jenkins job for app #{app}" do
-    command "jenkins-cli -s http://localhost:80 create-job #{app} < #{config_file}"
+    command "java -jar jenkins-cli -s http://localhost:80 create-job #{app} < #{config_file}"
     creates "/var/lib/jenkins/jobs/#{app}"
   end
 end
