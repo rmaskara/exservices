@@ -14,8 +14,6 @@ recipe 'server', 'Installs Jenkins server'
 
 
 depends 'java'
-#depends 'runit', '>= 1.0.0'
-#depends 'apt'
 depends 'yum'
 
 depends 'apache2'
