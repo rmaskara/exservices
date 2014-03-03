@@ -87,6 +87,10 @@ execute 'Wait for Jenkins to restart before installing plugins' do
   command 'sleep 15'
 end
 
+remote_file "/var/lib/jenkins/jenkins-cli.jar" do
+  source "http://localhost:80/jnlpJars/jenkins-cli.jar"
+end
+
 node[:jenkins][:plugins].each do |plugin|
   execute "Install jenkins plugin #{plugin}" do
     command "java -jar jenkins-cli.jar -s http://localhost:80 install-plugin #{plugin}"
