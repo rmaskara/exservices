@@ -93,7 +93,7 @@ end
 
 node[:jenkins][:plugins].each do |plugin|
   execute "Install jenkins plugin #{plugin}" do
-    command "jenkins-cli.jar -s http://localhost:80 install-plugin #{plugin}"
+    command "java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:80 install-plugin #{plugin}"
     notifies :restart, resources(:service => 'jenkins')
     creates "/var/lib/jenkins/plugins/#{plugin}.hpi"
   end
