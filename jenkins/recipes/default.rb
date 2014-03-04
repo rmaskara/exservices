@@ -89,6 +89,7 @@ end
 
 remote_file "/var/lib/jenkins/jenkins-cli.jar" do
   source "http://localhost:80/jnlpJars/jenkins-cli.jar"
+  action :create_if_missing
 end
 
 node[:jenkins][:plugins].each do |plugin|
