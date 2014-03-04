@@ -1,15 +1,14 @@
 node[:deploy].each do |app_name, deploy|
-
-  script "install_composer" do
-    interpreter "bash"
-    user "root"
-    cwd "#{deploy[:deploy_to]}/current"
     template "#{deploy[:deploy_to]}/current/composer.json" do
         source "composer.json"
         mode 0755
     end
+  script "install_composer" do
+    interpreter "bash"
+    user "root"
+    cwd "#{deploy[:deploy_to]}/current"
     code <<-EOH
-    curl -s https://getcomposer.org/installer | php -- --install-dir="#{deploy[:deploy_to]}/current"
+    curl -sS https://getcomposer.org/installer | php -- --install-dir="#{deploy[:deploy_to]}/current"
       
     php composer.phar install
     EOH
