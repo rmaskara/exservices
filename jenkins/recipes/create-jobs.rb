@@ -13,4 +13,10 @@ node[:deploy].each do |app, deploy|
     command "java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:80 create-job #{app} < #{config_file}"
     creates "/var/lib/jenkins/jobs/#{app}"
   end
+  
+  file config_file do
+    only_if { File.exists?(config_file) }
+    action :delete
+  end
 end
+
