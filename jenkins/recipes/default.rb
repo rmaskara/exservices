@@ -92,8 +92,10 @@ remote_file "/var/lib/jenkins/jenkins-cli.jar" do
   action :create_if_missing
 end
 
-file "/var/lib/jenkins/jenkins-Envfile.properties" do
+cookbook_file "/var/lib/jenkins/jenkins-Envfile.properties" do
   source 'jenkins-Envfile.properties'
+  owner 'jenkins'
+  mode 0640
   action :create_if_missing
 end
 
