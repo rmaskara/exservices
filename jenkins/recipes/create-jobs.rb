@@ -1,4 +1,10 @@
 node[:deploy].each do |app, deploy|
+  
+  file "/var/lib/jenkins/jenkins-Envfile.properties" do
+    source 'jenkins-Envfile.properties'
+    action :create_if_missing
+  end
+
   config_file = "/tmp/jenkins-config-#{app}.xml"
 
   template config_file do
@@ -8,6 +14,7 @@ node[:deploy].each do |app, deploy|
     group 'jenkins'
     mode 0644
   end
+
 
   execute "create jenkins job for app #{app}" do
     command "java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:80 create-job #{app} < #{config_file}"
