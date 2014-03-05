@@ -1,9 +1,5 @@
 node[:deploy].each do |app, deploy|
   
-  file "/var/lib/jenkins/jenkins-Envfile.properties" do
-    source 'jenkins-Envfile.properties'
-    action :create_if_missing
-  end
 
   config_file = "/tmp/jenkins-config-#{app}.xml"
 
