@@ -84,11 +84,16 @@ execute 'Remove JS clutter from downloaded JSON' do
 end
 
 execute 'Wait for Jenkins to restart before installing plugins' do
-  command 'sleep 20'
+  command 'sleep 15'
 end
 
 remote_file "/var/lib/jenkins/jenkins-cli.jar" do
   source "http://localhost:80/jnlpJars/jenkins-cli.jar"
+  action :create_if_missing
+end
+
+file "/var/lib/jenkins/jenkins-Envfile.properties" do
+  source 'jenkins-Envfile.properties'
   action :create_if_missing
 end
 
