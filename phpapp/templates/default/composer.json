@@ -4,5 +4,10 @@
         "silex/silex": "~1.1",
         "twig/twig": ">=1.8,<2.0-dev",
         "symfony/twig-bridge": "~2.3"
+    },
+    "extra": {
+    "symfony-app-dir": "app",
+    "symfony-web-dir": "web",
+    "symfony-assets-install": "symlink"
     }
 }
