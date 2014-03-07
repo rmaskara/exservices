@@ -1,6 +1,7 @@
 include_recipe 'jenkins::dependencies'
 include_recipe 'nginx::service'
 include_recipe 'jenkins::service'
+include_recipe 'yum::default'
 
 directory '/var/lib/jenkins'
 
@@ -11,6 +12,11 @@ directory '/var/lib/jenkins'
     options 'bind,rw'
     action mount_action
   end
+end
+
+yum_repository 'jenkins-ci' do
+    baseurl 'http://pkg.jenkins-ci.org/redhat'
+    gpgkey  'http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key'
 end
 
 package 'jenkins'
@@ -84,12 +90,24 @@ execute 'Remove JS clutter from downloaded JSON' do
 end
 
 execute 'Wait for Jenkins to restart before installing plugins' do
-  command 'sleep 20'
+  command 'sleep 15'
 end
 
 remote_file "/var/lib/jenkins/jenkins-cli.jar" do
   source "http://localhost:80/jnlpJars/jenkins-cli.jar"
   action :create_if_missing
+end
+
+cookbook_file "/var/lib/jenkins/jenkins-Envfile.properties" do
+  source 'jenkins-Envfile.properties'
+  owner 'jenkins'
+  mode 0640
+  action :create_if_missing
+end
+
+execute 'change ec2 ruby softlink to /usr/local/bin version instead of /usr/bin' do
+  command 'ln -fsn /usr/local/bin/ruby /usr/bin/ruby'
+  user 'root'
 end
 
 node[:jenkins][:plugins].each do |plugin|

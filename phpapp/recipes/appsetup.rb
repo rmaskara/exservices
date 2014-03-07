@@ -16,7 +16,7 @@ node[:deploy].each do |app_name, deploy|
 
   template "#{deploy[:deploy_to]}/current/db-connect.php" do
     source "db-connect.php.erb"
-    mode 0660
+    mode 0664
     group deploy[:group]
 
     if platform?("ubuntu")
