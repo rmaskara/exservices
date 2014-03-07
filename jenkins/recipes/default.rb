@@ -1,6 +1,7 @@
 include_recipe 'jenkins::dependencies'
 include_recipe 'nginx::service'
 include_recipe 'jenkins::service'
+include_recipe 'yum::default'
 
 directory '/var/lib/jenkins'
 
