@@ -1,7 +1,7 @@
 include_recipe 'jenkins::dependencies'
 include_recipe 'nginx::service'
 include_recipe 'jenkins::service'
-include_recipe 'yum::default'
+#include_recipe 'yum::default'
 
 directory '/var/lib/jenkins'
 
@@ -14,12 +14,12 @@ directory '/var/lib/jenkins'
   end
 end
 
-yum_repository 'jenkins-ci' do
-    baseurl 'http://pkg.jenkins-ci.org/redhat'
-    gpgkey  'http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key'
-end
+#yum_repository 'jenkins-ci' do
+#    baseurl 'http://pkg.jenkins-ci.org/redhat'
+#    gpgkey  'http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key'
+#end
 
-package 'jenkins'
+yum_package 'jenkins'
 
 directory '/var/lib/jenkins/.ssh' do
   owner 'jenkins'
