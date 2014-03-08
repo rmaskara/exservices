@@ -97,6 +97,9 @@ end
 
 remote_file "/var/lib/jenkins/jenkins-cli.jar" do
   source "http://localhost:80/jnlpJars/jenkins-cli.jar"
+  owner 'jenkins'
+  group 'jenkins'
+  mode 0644
   action :create_if_missing
 end
 
