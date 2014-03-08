@@ -110,6 +110,9 @@ node[:jenkins][:plugins].each do |plugin|
     notifies :restart, resources(:service => 'jenkins'), :immediately
     creates "/var/lib/jenkins/plugins/#{plugin}.hpi"
     #resources('ruby_block[block_until_operational]').run_action(:create)
-    not if 'sleep 25'
+  end
+  
+  execute 'Wait for Jenkins to restart before installing plugins' do
+    command 'sleep 15'
   end
 end
