@@ -14,13 +14,13 @@ directory '/var/lib/jenkins'
   end
 end
 
-include_recipe 'yum::providers::repository'
-#yum_repository 'jenkins-ci' do
-#    baseurl 'http://pkg.jenkins-ci.org/redhat'
-#    gpgkey  'http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key'
-#end
 
-yum_package 'jenkins'
+yum_repository 'jenkins-ci' do
+    baseurl 'http://pkg.jenkins-ci.org/redhat'
+    gpgkey  'http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key'
+end
+
+package 'jenkins'
 
 directory '/var/lib/jenkins/.ssh' do
   owner 'jenkins'
