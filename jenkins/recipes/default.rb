@@ -91,7 +91,7 @@ execute 'Remove JS clutter from downloaded JSON' do
 end
 
 execute 'Wait for Jenkins to restart before installing plugins' do
-  command 'sleep 15'
+  command 'sleep 25'
 end
 
 remote_file "/var/lib/jenkins/jenkins-cli.jar" do
