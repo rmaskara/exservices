@@ -107,7 +107,7 @@ node[:jenkins][:plugins].each do |plugin|
   execute "Install jenkins plugin #{plugin}" do
     command "java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:80 install-plugin #{plugin}"
     notifies :restart, resources(:service => 'jenkins'), :immediately
-    creates "/var/lib/jenkins/plugins/#{plugin}.hpi"
+    creates "/var/lib/jenkins/plugins/#{plugin}.jpi"
     not_if { ::File.exists?("/var/lib/jenkins/plugins/#{plugin}.hpi")}
     #resources('ruby_block[block_until_operational]').run_action(:create)
   end
