@@ -1,6 +1,5 @@
 include_recipe 'jenkins::dependencies'
 include_recipe 'nginx::service'
-include_recipe 'jenkins::service'
 include_recipe 'yum::default'
 
 directory '/var/lib/jenkins'
@@ -84,6 +83,8 @@ remote_file '/var/lib/jenkins/updates/default.json' do
   source 'http://updates.jenkins-ci.org/update-center.json'
   owner 'jenkins'
 end
+
+include_recipe 'jenkins::service'
 
 execute 'Remove JS clutter from downloaded JSON' do
   command "sed -i'' -e '1d' /var/lib/jenkins/updates/default.json; sed -i'' -e '2d' /var/lib/jenkins/updates/default.json"
