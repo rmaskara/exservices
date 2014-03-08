@@ -87,7 +87,7 @@ end
 
 execute 'Remove JS clutter from downloaded JSON' do
   command "sed -i'' -e '1d' /var/lib/jenkins/updates/default.json; sed -i'' -e '2d' /var/lib/jenkins/updates/default.json"
-  notifies :restart, resources(:service => 'jenkins')
+  notifies :restart, resources(:service => 'jenkins'), :immediately
 end
 
 execute 'Wait for Jenkins to restart before installing plugins' do
@@ -99,13 +99,6 @@ remote_file "/var/lib/jenkins/jenkins-cli.jar" do
   action :create_if_missing
 end
 
-cookbook_file "/var/lib/jenkins/jenkins-Envfile.properties" do
-  source 'jenkins-Envfile.properties'
-  owner 'jenkins'
-  mode 0640
-  action :create_if_missing
-end
-
 execute 'change ec2 ruby softlink to /usr/local/bin version instead of /usr/bin' do
   command 'ln -fsn /usr/local/bin/ruby /usr/bin/ruby'
   user 'root'
@@ -114,7 +107,7 @@ end
 node[:jenkins][:plugins].each do |plugin|
   execute "Install jenkins plugin #{plugin}" do
     command "java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:80 install-plugin #{plugin}"
-    notifies :restart, resources(:service => 'jenkins')
+    notifies :restart, resources(:service => 'jenkins'), :immediately
     creates "/var/lib/jenkins/plugins/#{plugin}.hpi"
   end
 end
