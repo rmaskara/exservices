@@ -1,4 +1,4 @@
 service 'jenkins' do
-  supports status => true, restart => true, reload => true
+  supports restart => true
   action  [:enable, :start]
 end
