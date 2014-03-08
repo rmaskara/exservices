@@ -103,11 +103,6 @@ remote_file "/var/lib/jenkins/jenkins-cli.jar" do
   action :create_if_missing
 end
 
-execute 'change ec2 ruby softlink to /usr/local/bin version instead of /usr/bin' do
-  command 'ln -fsn /usr/local/bin/ruby /usr/bin/ruby'
-  user 'root'
-end
-
 node[:jenkins][:plugins].each do |plugin|
   execute "Install jenkins plugin #{plugin}" do
     command "java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:80 install-plugin #{plugin}"
@@ -119,4 +114,9 @@ node[:jenkins][:plugins].each do |plugin|
   execute 'Wait for Jenkins to restart before installing plugins' do
     command 'sleep 15'
   end
+end
+
+execute 'change ec2 ruby softlink to /usr/local/bin version instead of /usr/bin' do
+  command 'ln -fsn /usr/local/bin/ruby /usr/bin/ruby'
+  user 'root'
 end
