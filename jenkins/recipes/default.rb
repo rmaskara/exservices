@@ -109,6 +109,7 @@ node[:jenkins][:plugins].each do |plugin|
     notifies :restart, resources(:service => 'jenkins'), :immediately
     creates "/var/lib/jenkins/plugins/#{plugin}.hpi"
     user jenkins
+    not_if { ::File.exists?("/var/lib/jenkins/plugins/#{plugin}.hpi")}
     #resources('ruby_block[block_until_operational]').run_action(:create)
   end
   
