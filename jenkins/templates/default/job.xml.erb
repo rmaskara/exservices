@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<project>
+<maven2-moduleset plugin="maven-plugin@2.1">
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
@@ -51,7 +51,24 @@
     </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
-  <builders>
+    <rootModule>
+    <groupId>com.berryworks</groupId>
+    <artifactId>edireader</artifactId>
+  </rootModule>
+  <rootPOM>edireader/pom.xml</rootPOM>
+  <aggregatorStyleBuild>true</aggregatorStyleBuild>
+  <incrementalBuild>false</incrementalBuild>
+  <ignoreUpstremChanges>false</ignoreUpstremChanges>
+  <archivingDisabled>false</archivingDisabled>
+  <resolveDependencies>false</resolveDependencies>
+  <processPlugins>false</processPlugins>
+  <mavenValidationLevel>-1</mavenValidationLevel>
+  <runHeadless>false</runHeadless>
+  <disableTriggerDownstreamProjects>false</disableTriggerDownstreamProjects>
+  <settings class="jenkins.mvn.DefaultSettingsProvider"/>
+  <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+
+  <postbuilders>
   <hudson.plugins.ruby.Ruby>
       <command>$VERBOSE = false
 require &apos;rubygems&apos;
@@ -99,7 +116,7 @@ else
   puts &apos;no online instance, not deploying&apos;
 end</command>
     </hudson.plugins.ruby.Ruby>
-  </builders>
+  </postbuilders>
   <publishers/>
   <buildWrappers/>
 </project>
