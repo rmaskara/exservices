@@ -1,6 +1,5 @@
 include_recipe 'jenkins::dependencies'
 include_recipe 'nginx::service'
-include_recipe 'jenkins::service'
 include_recipe 'yum::default'
 
 directory '/var/lib/jenkins'
@@ -13,6 +12,7 @@ directory '/var/lib/jenkins'
     action mount_action
   end
 end
+
 
 yum_repository 'jenkins-ci' do
     baseurl 'http://pkg.jenkins-ci.org/redhat'
@@ -84,36 +84,40 @@ remote_file '/var/lib/jenkins/updates/default.json' do
   owner 'jenkins'
 end
 
+include_recipe 'jenkins::service'
+
 execute 'Remove JS clutter from downloaded JSON' do
   command "sed -i'' -e '1d' /var/lib/jenkins/updates/default.json; sed -i'' -e '2d' /var/lib/jenkins/updates/default.json"
-  notifies :restart, resources(:service => 'jenkins')
+  notifies :restart, resources(:service => 'jenkins'), :immediately
 end
 
 execute 'Wait for Jenkins to restart before installing plugins' do
-  command 'sleep 15'
+  command 'sleep 25'
 end
 
 remote_file "/var/lib/jenkins/jenkins-cli.jar" do
   source "http://localhost:80/jnlpJars/jenkins-cli.jar"
-  action :create_if_missing
-end
-
-cookbook_file "/var/lib/jenkins/jenkins-Envfile.properties" do
-  source 'jenkins-Envfile.properties'
   owner 'jenkins'
-  mode 0640
+  group 'jenkins'
+  mode 0644
   action :create_if_missing
-end
-
-execute 'change ec2 ruby softlink to /usr/local/bin version instead of /usr/bin' do
-  command 'ln -fsn /usr/local/bin/ruby /usr/bin/ruby'
-  user 'root'
 end
 
 node[:jenkins][:plugins].each do |plugin|
   execute "Install jenkins plugin #{plugin}" do
     command "java -jar /var/lib/jenkins/jenkins-cli.jar -s http://localhost:80 install-plugin #{plugin}"
-    notifies :restart, resources(:service => 'jenkins')
-    creates "/var/lib/jenkins/plugins/#{plugin}.hpi"
+    notifies :restart, resources(:service => 'jenkins'), :immediately
+    creates "/var/lib/jenkins/plugins/#{plugin}.jpi"
+    not_if { ::File.exists?("/var/lib/jenkins/plugins/#{plugin}.hpi")}
+    #resources('ruby_block[block_until_operational]').run_action(:create)
   end
+  
+  execute 'Wait for Jenkins to restart before installing plugins' do
+    command 'sleep 15'
+  end
+end
+
+execute 'change ec2 ruby softlink to /usr/local/bin version instead of /usr/bin' do
+  command 'ln -fsn /usr/local/bin/ruby /usr/bin/ruby'
+  user 'root'
 end
