@@ -20,7 +20,7 @@
 # This recipe relies on a PPA package and is Ubuntu/Debian specific. Please
 # keep this in mind.
 
-include_recipe "java"
+include_recipe "opscode::java"
 
 user node.cassandra.user do
   comment "Cassandra Server user"
