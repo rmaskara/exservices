@@ -1,4 +1,4 @@
-include_recipe "ark"
+include_recipe "opscode::ark"
 
 ark "#{node[:cassandra][:opscenter][:agent][:install_folder_name]}" do
   path node[:cassandra][:opscenter][:agent][:install_dir]
