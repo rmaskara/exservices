@@ -1,4 +1,4 @@
-include_recipe "java"
+include_recipe "opscode::java"
 
 case node["platform_family"]
 when "debian"
