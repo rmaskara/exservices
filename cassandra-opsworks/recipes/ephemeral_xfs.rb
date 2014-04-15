@@ -27,7 +27,7 @@ package "xfsprogs" do
   action :install
 end
 
-target        = "/dev/xvdb"
+target        = "/dev/xvda2"
 mountLocation = "/mnt"
 
 # Unmount the ephemeral storage provided by Amazon
