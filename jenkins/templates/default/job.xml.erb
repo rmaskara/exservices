@@ -56,6 +56,7 @@
     <artifactId>edireader</artifactId>
   </rootModule>
   <rootPOM>edireader/pom.xml</rootPOM>
+  <goals>--batch-mode -Dusername=rmaskara release:clean release:prepare release:perform</goals>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <incrementalBuild>false</incrementalBuild>
   <ignoreUpstremChanges>false</ignoreUpstremChanges>
@@ -117,6 +118,13 @@ else
 end</command>
     </hudson.plugins.ruby.Ruby>
   </postbuilders>
+    <runPostStepsIfResult>
+    <name>SUCCESS</name>
+    <ordinal>0</ordinal>
+    <color>BLUE</color>
+    <completeBuild>true</completeBuild>
+  </runPostStepsIfResult>
+
   <publishers/>
   <buildWrappers/>
 </maven2-moduleset>
